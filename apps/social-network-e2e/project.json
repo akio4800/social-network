@@ -1,7 +1,7 @@
 {
   "name": "social-network-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["social-network"],
+  "implicitDependencies": ["users"],
   "projectType": "application",
   "targets": {
     "e2e": {
