@@ -1,0 +1,67 @@
+{
+  "name": "activity-feed",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/activity-feed/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/activity-feed",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/activity-feed/src/main.ts",
+        "tsConfig": "apps/activity-feed/tsconfig.app.json",
+        "assets": ["apps/activity-feed/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "activity-feed:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "activity-feed:build:development"
+        },
+        "production": {
+          "buildTarget": "activity-feed:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/activity-feed/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
