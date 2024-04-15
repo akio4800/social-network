@@ -8,8 +8,6 @@ interface Post {
 
 export function App() {
   const [posts, setPosts] = useState([]);
-  // get the posts from the `feed` nx app and display them
-
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch('http://localhost:3000');
