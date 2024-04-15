@@ -8,16 +8,8 @@ const port = 3002;
 
 app.use(bodyParser.json());
 
-interface Post {
-  // Define interface properties based on your post schema
-  id: number;
-  title: string;
-  content: string;
-  // Other post properties...
-}
-
 app.post('/posts', async (req, res) => {
-  const newPost: Post = req.body; // Type assertion to Post interface
+  const newPost = req.body; // Type assertion to Post interface
 
   try {
     const post = await prisma.post.create({

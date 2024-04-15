@@ -1,7 +1,7 @@
 {
-  "name": "activity-feed",
+  "name": "feed",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/activity-feed/src",
+  "sourceRoot": "apps/feed/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,12 +10,12 @@
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
-        "outputPath": "dist/apps/activity-feed",
+        "outputPath": "dist/apps/feed",
         "format": ["cjs"],
         "bundle": false,
-        "main": "apps/activity-feed/src/main.ts",
-        "tsConfig": "apps/activity-feed/tsconfig.app.json",
-        "assets": ["apps/activity-feed/src/assets"],
+        "main": "apps/feed/src/main.ts",
+        "tsConfig": "apps/feed/tsconfig.app.json",
+        "assets": ["apps/feed/src/assets"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -40,14 +40,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "activity-feed:build"
+        "buildTarget": "feed:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "activity-feed:build:development"
+          "buildTarget": "feed:build:development"
         },
         "production": {
-          "buildTarget": "activity-feed:build:production"
+          "buildTarget": "feed:build:production"
         }
       }
     },
@@ -59,73 +59,73 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/activity-feed/jest.config.ts"
+        "jestConfig": "apps/feed/jest.config.ts"
       }
     },
     "prisma-generate": {
       "executor": "@nx-tools/nx-prisma:generate",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-migrate": {
       "executor": "@nx-tools/nx-prisma:migrate",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-pull": {
       "executor": "@nx-tools/nx-prisma:pull",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-push": {
       "executor": "@nx-tools/nx-prisma:push",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-deploy": {
       "executor": "@nx-tools/nx-prisma:deploy",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-status": {
       "executor": "@nx-tools/nx-prisma:status",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-studio": {
       "executor": "@nx-tools/nx-prisma:studio",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-reset": {
       "executor": "@nx-tools/nx-prisma:reset",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-resolve": {
       "executor": "@nx-tools/nx-prisma:resolve",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-seed": {
       "executor": "@nx-tools/nx-prisma:seed",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     },
     "prisma-validate": {
       "executor": "@nx-tools/nx-prisma:validate",
       "options": {
-        "schema": "apps/activity-feed/prisma/schema.prisma"
+        "schema": "apps/feed/prisma/schema.prisma"
       }
     }
   },

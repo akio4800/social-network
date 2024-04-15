@@ -1,14 +1,14 @@
 {
-  "name": "activity-feed-e2e",
+  "name": "feed-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["activity-feed"],
+  "implicitDependencies": ["feed"],
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "apps/activity-feed-e2e/jest.config.ts",
+        "jestConfig": "apps/feed-e2e/jest.config.ts",
         "passWithNoTests": true
       }
     },

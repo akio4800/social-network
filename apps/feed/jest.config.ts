@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'activity-feed',
+  displayName: 'feed',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/activity-feed',
+  coverageDirectory: '../../coverage/apps/feed',
 };
