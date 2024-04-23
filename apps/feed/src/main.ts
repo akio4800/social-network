@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import express from 'express';
 
-const host = process.env.HOST ?? 'localhost';
 const prisma = new PrismaClient();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
@@ -16,6 +15,6 @@ app.get('/', (req, res) => {
   res.json(posts);
 });
 
-app.listen(port, host, () => {
+app.listen(port, () => {
   console.log(`[ ready ] http://${host}:${port}`);
 });
