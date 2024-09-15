@@ -4,7 +4,8 @@ import express from 'express';
 
 const prisma = new PrismaClient();
 const app = express();
-const port = 3002;
+const port = process.env.PORT ? Number(process.env.PORT) :3002;
+const host = process.env.IP ? process.env.IP : 'locahost';
 
 app.use(bodyParser.json());
 

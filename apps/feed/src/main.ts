@@ -3,6 +3,7 @@ import express from 'express';
 
 const prisma = new PrismaClient();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+const host = process.env.IP ? process.env.IP : 'locahost';
 
 const app = express();
 

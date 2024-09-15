@@ -4,7 +4,8 @@ import express from 'express';
 
 const prisma = new PrismaClient();
 const app = express();
-const port = 3001;
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+const host = process.env.IP ? process.env.IP : 'locahost';
 
 app.use(bodyParser.json());
 
@@ -47,5 +48,5 @@ app.get('/users/:userId', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`User service listening at http://localhost:${port}`);
+  console.log(`User service listening at http://${host}:${port}`);
 });
