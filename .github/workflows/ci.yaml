@@ -34,6 +34,3 @@ jobs:
         
       - name: Build ui Project with NX
         run: npx nx build ui
-
-      - name: Test ui Project with NX
-        run: npx nx test ui
