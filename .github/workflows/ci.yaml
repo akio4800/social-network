@@ -33,7 +33,7 @@ jobs:
         run: npx nx test posts
         
       - name: Build Feed Project with NX
-        run: npx nx build users
+        run: npx nx build ui
 
       - name: Test Feed Project with NX
-        run: npx nx test users
+        run: npx nx test ui
