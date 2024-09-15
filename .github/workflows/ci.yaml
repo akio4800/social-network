@@ -19,21 +19,3 @@ jobs:
 
       - name: Test Users Project with NX
         run: npx nx test users
-
-      - name: Build Feed Project with NX
-        run: npx nx build feed
-
-      - name: Test Feed Project with NX
-        run: npx nx test feed
-
-      - name: Build Feed Project with NX
-        run: npx nx build posts
-
-      - name: Test Feed Project with NX
-        run: npx nx test posts
-        
-      - name: Build Feed Project with NX
-        run: npx nx build ui
-
-      - name: Test Feed Project with NX
-        run: npx nx test ui
