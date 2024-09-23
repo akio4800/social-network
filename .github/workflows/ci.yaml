@@ -16,12 +16,3 @@ jobs:
       - run: npm ci
       - name: Build Users Project with NX
         run: npx nx build users
-        
-      - name: Build feed Project with NX
-        run: npx nx build feed
-        
-      - name: Build posts Project with NX
-        run: npx nx build posts
-
-      - name: Build ui Project with NX
-        run: npx nx build ui
