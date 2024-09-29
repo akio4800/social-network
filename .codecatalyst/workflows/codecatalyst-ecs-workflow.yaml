@@ -40,9 +40,8 @@ Actions:
         - Run: docker push $REPOSITORY_URI:latest
         - Run: docker push $REPOSITORY_URI:$IMAGE_TAG
         # Replace the variables in taskdef.json
-        - Run: find taskdef_users.json -type f | xargs sed -i
-            "s|\$REPOSITORY_URI|$REPOSITORY_URI|g"
-        - Run: find taskdef.json -type f | xargs sed -i "s|\$IMAGE_TAG|$IMAGE_TAG|g"
+        - Run: find taskdef_users.json -type f | xargs sed -i "s|\$REPOSITORY_URI|$REPOSITORY_URI|g"
+        - Run: find taskdef_users.json -type f | xargs sed -i "s|\$IMAGE_TAG|$IMAGE_TAG|g"
         - Run: cat taskdef_users.json
       Container:
         Registry: CODECATALYST
