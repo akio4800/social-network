@@ -26,7 +26,9 @@ Actions:
         #pre_build:
         - Run: echo Logging in to Amazon ECR...
         - Run: aws --version
-        - Run: aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 897722671973.dkr.ecr.eu-west-1.amazonaws.com/codecatalyst-ecs-image-repo
+        - Run: aws ecr get-login-password --region eu-west-1 | docker login --username AWS
+            --password-stdin
+            897722671973.dkr.ecr.eu-west-1.amazonaws.com/codecatalyst-ecs-image-repo
         #build:
         - Run: echo Build started on `date`
         - Run: echo Building the Docker image...
@@ -38,30 +40,31 @@ Actions:
         - Run: docker push $REPOSITORY_URI:latest
         - Run: docker push $REPOSITORY_URI:$IMAGE_TAG
         # Replace the variables in taskdef.json
-        - Run: find taskdef.json -type f | xargs sed -i "s|\$REPOSITORY_URI|$REPOSITORY_URI|g"
+        - Run: find taskdef.json -type f | xargs sed -i
+            "s|\$REPOSITORY_URI|$REPOSITORY_URI|g"
         - Run: find taskdef.json -type f | xargs sed -i "s|\$IMAGE_TAG|$IMAGE_TAG|g"
         - Run: cat taskdef.json
         # The output artifact will be a zip file that contains a task definition file.
     Outputs:
       Artifacts:
         - Name: TaskDefArtifact
-          Files: 
+          Files:
             - taskdef.json
   DeployToECS:
-    DependsOn: 
-      - BuildBackend
     Identifier: aws/ecs-deploy@v1
+    Configuration:
+      task-definition: taskdef.json
+      service: codecatalyst-ecs-service
+      cluster: codecatalyst-ecs-cluster
+      region: eu-west-1
     Environment:
-      Name: codecatalyst-ecs-environment
       Connections:
-        - Name: akio
-          Role: codecatalyst-ecs-deploy-role
+        - Role: CodeCatalystWorkflowDevelopmentRole-social-network
+          Name: akio
+      Name: codecatalyst-ecs-environment
+    DependsOn:
+      - BuildBackend
     Inputs:
-      Sources: []
       Artifacts:
         - TaskDefArtifact
-    Configuration:
-      region: eu-west-1
-      cluster: codecatalyst-ecs-cluster
-      service: codecatalyst-ecs-service
-      task-definition: taskdef.json
+      Sources: []
