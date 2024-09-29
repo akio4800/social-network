@@ -9,10 +9,10 @@ Actions:
   BuildBackend:
     Identifier: aws/build@v1
     Environment:
-      Name: codecatalyst-ecs-environment
       Connections:
-        - Name: akio
-          Role: codecatalyst-ecs-build-role
+        - Role: codecatalyst-ecs-build-role
+          Name: akio
+      Name: codecatalyst-ecs-environment
     Inputs:
       Sources:
         - WorkflowSource
@@ -44,12 +44,17 @@ Actions:
             "s|\$REPOSITORY_URI|$REPOSITORY_URI|g"
         - Run: find taskdef.json -type f | xargs sed -i "s|\$IMAGE_TAG|$IMAGE_TAG|g"
         - Run: cat taskdef.json
+      Container:
+        Registry: CODECATALYST
+        Image: CodeCatalystLinux_x86_64:2024_03
         # The output artifact will be a zip file that contains a task definition file.
     Outputs:
       Artifacts:
         - Name: TaskDefArtifact
           Files:
             - taskdef.json
+    Compute:
+      Type: EC2
   DeployToECS:
     Identifier: aws/ecs-deploy@v1
     Configuration:
