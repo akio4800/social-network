@@ -20,5 +20,5 @@
     "networkMode": "awsvpc",
     "cpu": "256",
     "memory": "512",
-    "family": "users-taskdef"
+    "family": "feed-taskdef"
 }
