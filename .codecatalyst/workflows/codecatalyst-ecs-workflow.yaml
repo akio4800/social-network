@@ -57,12 +57,9 @@ Actions:
       service: codecatalyst-ecs-service
       cluster: codecatalyst-ecs-cluster
       region: eu-west-1
-    Compute:
-      Type: EC2
-      Fleet: Linux.x86-64.Large
     Environment:
       Connections:
-        - Role: codecatalyst-ecs-deploy-role
+        - Role: CodeCatalystWorkflowDevelopmentRole-social-network
           Name: akio
       Name: codecatalyst-ecs-environment
     DependsOn:
@@ -70,5 +67,4 @@ Actions:
     Inputs:
       Artifacts:
         - TaskDefArtifact
-      Sources:
-        - WorkflowSource
+      Sources: []
