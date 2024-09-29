@@ -59,7 +59,7 @@ Actions:
     Identifier: aws/ecs-deploy@v1
     Configuration:
       task-definition: taskdef_users.json
-      service: codecatalyst-ecs-service
+      service: users
       cluster: codecatalyst-ecs-cluster
       region: eu-west-1
     Environment:
