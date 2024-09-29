@@ -57,6 +57,9 @@ Actions:
       service: codecatalyst-ecs-service
       cluster: codecatalyst-ecs-cluster
       region: eu-west-1
+    Compute:
+      Type: EC2
+      Fleet: Linux.x86-64.Large
     Environment:
       Connections:
         - Role: codecatalyst-ecs-deploy-role
