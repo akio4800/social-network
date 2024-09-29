@@ -1,12 +1,66 @@
-version: "3.8"
+version: "3.9"
 
-services:   
+services:
+  ui:
+    build:
+      context: .
+      dockerfile: ./apps/ui/Dockerfile
+    ports:
+      - "4201:4201"
+    environment:
+      NODE_ENV: production
 
   users:
-    image: users
-    restart: always
-    hostname: users
+    build:
+      context: .
+      dockerfile: ./apps/users/Dockerfile
     ports:
-    - "3001:3001"
+      - "3001:3001"
     environment:
-    - TZ=Europe/Vienna
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+
+  posts:
+    build:
+      context: .
+      dockerfile: ./apps/posts/Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+
+  feed:
+    build:
+      context: .
+      dockerfile: ./apps/feed/Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data: {
