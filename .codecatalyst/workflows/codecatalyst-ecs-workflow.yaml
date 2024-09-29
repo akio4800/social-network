@@ -1,4 +1,4 @@
-Name: codecatalyst-ecs-workflow
+Name: users-wf
 SchemaVersion: 1.0
 
 Triggers:
@@ -40,10 +40,10 @@ Actions:
         - Run: docker push $REPOSITORY_URI:latest
         - Run: docker push $REPOSITORY_URI:$IMAGE_TAG
         # Replace the variables in taskdef.json
-        - Run: find taskdef.json -type f | xargs sed -i
+        - Run: find taskdef_users.json -type f | xargs sed -i
             "s|\$REPOSITORY_URI|$REPOSITORY_URI|g"
         - Run: find taskdef.json -type f | xargs sed -i "s|\$IMAGE_TAG|$IMAGE_TAG|g"
-        - Run: cat taskdef.json
+        - Run: cat taskdef_users.json
       Container:
         Registry: CODECATALYST
         Image: CodeCatalystLinux_x86_64:2024_03
@@ -52,19 +52,19 @@ Actions:
       Artifacts:
         - Name: TaskDefArtifact
           Files:
-            - taskdef.json
+            - taskdef_users.json
     Compute:
       Type: EC2
   DeployToECS:
     Identifier: aws/ecs-deploy@v1
     Configuration:
-      task-definition: taskdef.json
+      task-definition: taskdef_users.json
       service: codecatalyst-ecs-service
       cluster: codecatalyst-ecs-cluster
       region: eu-west-1
     Environment:
       Connections:
-        - Role: CodeCatalystWorkflowDevelopmentRole-social-network
+        - Role: codecatalyst-ecs-deploy-role
           Name: akio
       Name: codecatalyst-ecs-environment
     DependsOn:
