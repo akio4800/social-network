@@ -1,0 +1,77 @@
+Name: users-wf
+SchemaVersion: 1.0
+
+Triggers:
+  - Type: PUSH
+    Branches:
+      - main
+    FilesChanged:
+      - apps/users/.*
+Actions:
+  BuildBackend:
+    Identifier: aws/build@v1
+    Environment:
+      Connections:
+        - Role: codecatalyst-ecs-build-role
+          Name: akio
+      Name: codecatalyst-ecs-environment
+    Inputs:
+      Sources:
+        - WorkflowSource
+      Variables:
+        - Name: REPOSITORY_URI
+          Value: 897722671973.dkr.ecr.eu-west-1.amazonaws.com/codecatalyst-ecs-image-repo
+        - Name: IMAGE_TAG
+          Value: ${WorkflowSource.CommitId}
+    Configuration:
+      Steps:
+        #pre_build:
+        - Run: echo Logging in to Amazon ECR...
+        - Run: aws --version
+        - Run: aws ecr get-login-password --region eu-west-1 | docker login --username AWS
+            --password-stdin
+            897722671973.dkr.ecr.eu-west-1.amazonaws.com/codecatalyst-ecs-image-repo
+        #build:
+        - Run: echo Build started on `date`
+        - Run: echo Building the Docker image...
+        - Run: docker build -t $REPOSITORY_URI:latest -f apps/users/Dockerfile .
+        - Run: docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+        #post_build:
+        - Run: echo Build completed on `date`
+        - Run: echo Pushing the Docker images...
+        - Run: docker push $REPOSITORY_URI:latest
+        - Run: docker push $REPOSITORY_URI:$IMAGE_TAG
+        # Replace the variables in taskdef.json
+        - Run: find taskdef_users.json -type f | xargs sed -i
+            "s|\$REPOSITORY_URI|$REPOSITORY_URI|g"
+        - Run: find taskdef_users.json -type f | xargs sed -i "s|\$IMAGE_TAG|$IMAGE_TAG|g"
+        - Run: cat taskdef_users.json
+      Container:
+        Registry: CODECATALYST
+        Image: CodeCatalystLinux_x86_64:2024_03
+        # The output artifact will be a zip file that contains a task definition file.
+    Outputs:
+      Artifacts:
+        - Name: TaskDefArtifact
+          Files:
+            - taskdef_users.json
+    Compute:
+      Type: EC2
+  DeployToECS:
+    Identifier: aws/ecs-deploy@v1
+    Configuration:
+      task-definition: taskdef_users.json
+      service: users
+      cluster: codecatalyst-ecs-cluster
+      region: eu-west-1
+    Environment:
+      Connections:
+        - Role: codecatalyst-ecs-deploy-role
+          Name: akio
+      Name: codecatalyst-ecs-environment
+    DependsOn:
+      - BuildBackend
+    Inputs:
+      Artifacts:
+        - TaskDefArtifact
+      Sources: []
