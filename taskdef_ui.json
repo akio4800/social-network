@@ -2,14 +2,14 @@
     "executionRoleArn": "arn:aws:iam::897722671973:role/codecatalyst-ecs-task-execution-role",
     "containerDefinitions": [
         {
-            "name": "codecatalyst-ecs-container",
+            "name": "ui",
             "image": $REPOSITORY_URI:$IMAGE_TAG,
             "essential": true,
             "portMappings": [
                 {
-                    "hostPort": 3000,
+                    "hostPort": 4201,
                     "protocol": "tcp",
-                    "containerPort": 3000
+                    "containerPort": 4201
                 }
             ]
         }
@@ -20,5 +20,5 @@
     "networkMode": "awsvpc",
     "cpu": "256",
     "memory": "512",
-    "family": "codecatalyst-ecs-task-def"
+    "family": "ui-taskdef"
 }
