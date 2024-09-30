@@ -61,7 +61,7 @@ Actions:
     Identifier: aws/ecs-deploy@v1
     Configuration:
       task-definition: taskdef_posts.json
-      service: feed
+      service: posts
       cluster: codecatalyst-ecs-cluster
       region: eu-west-1
     Environment:
