@@ -17,19 +17,10 @@ COPY . .
 # Baue die Anwendung mit Nx
 RUN npx nx run ui:build --configuration=production
 
-# Final-Stage mit schlankem Node-Image
-FROM node:lts-alpine
-WORKDIR /app
-
-# Kopiere den gebauten Code und Prisma-Dateien aus dem Builder-Stage
-COPY --from=builder /app/dist/apps/ui ./dist/apps/ui
-
-# Kopiere node_modules aus dem Builder-Stage
-COPY --from=builder /app/node_modules ./node_modules
-
-# Setze Umgebungsvariablen und öffne Ports
-ENV PORT=4201
-EXPOSE 4201
-
-# Starte die Node.js-Anwendung mit dem korrekten Pfad
-CMD ["node", "dist/apps/ui/main.js"]
+FROM nginx:stable-alpine
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=builder /app/dist/apps/ui ./
+RUN sed -i '10i \\ttry_files $uri $uri/ /index.html;' /etc/nginx/conf.d/default.conf
+EXPOSE 80
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
